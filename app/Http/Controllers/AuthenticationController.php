@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AuthResource;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,6 +12,22 @@ use Illuminate\Validation\ValidationException;
 
 class AuthenticationController extends Controller
 {
+
+    public function register(Request $request){
+        $validate = $request->validate([
+            'email' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            // Hash::make($request->newPassword)
+            'firstname' => 'required',
+            'lastname' => 'required',
+        ]);
+
+        $user = User::create($request->all());
+        return response()->json($user);
+        // return response()->json('ok bisa');
+    }
+
     public function login(Request $request){
         $request->validate([
             'email' => 'required|email',
